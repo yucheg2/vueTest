@@ -13,8 +13,23 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 .app {
-    padding: 0 20vh;
+    padding: 0 30vh;
+}
+@media (max-width: 1200px) {
+    .app {
+        padding: 0 20vh;
+    }
+}
+@media (max-width: 1000px) {
+    .app {
+        padding: 0 8vh;
+    }
+}
+@media (max-width: 400px) {
+    .app {
+        padding: 0 5vh;
+    }
 }
 </style>

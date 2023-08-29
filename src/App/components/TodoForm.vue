@@ -4,7 +4,7 @@
         <input
             v-model="todo.title"
             type="text"
-            class="todoForm__input"
+            v-bind:class="'todoForm__input'"
             placeholder="Введите заголовок задачи"
         />
         <textarea
@@ -13,8 +13,19 @@
             placeholder="Введите описание задачи"
         ></textarea>
         <div class="todoForm__butons">
-            <button class="todoForm__cancel" @click="onCancel">Отменить</button>
-            <button class="todoForm__submit" @click="onSubmit">Создать</button>
+            <my-button
+                style="margin-right: 10px"
+                type="cancel"
+                @click="onCancel"
+                >Отменить</my-button
+            >
+            <my-button
+                class="todoForm__submit"
+                :disabled="todo.title === ''"
+                type="submit"
+                @click="onSubmit"
+                >Создать</my-button
+            >
         </div>
     </form>
 </template>
@@ -31,8 +42,11 @@ export default {
     },
     methods: {
         onCancel() {
-            this.todo.title = "";
-            this.todo.desc = "";
+            this.todo = {
+                title: "",
+                desc: "",
+            };
+            this.$emit("cancel", null);
         },
         onSubmit() {
             this.todo.id = Date.now();
@@ -74,36 +88,5 @@ export default {
     margin-bottom: 15px;
     border-radius: 15px;
     resize: vertical;
-}
-
-button {
-    cursor: pointer;
-    padding: 10px;
-    transition-duration: 0.4s;
-    border-radius: 10px;
-    margin-left: 10px;
-}
-.todoForm__cancel {
-    border-color: #db3434;
-    background-color: #db3434;
-    color: white;
-}
-
-.todoForm__cancel:hover {
-    border-color: #b92d2d;
-    background-color: #b92d2d;
-    color: white;
-}
-
-.todoForm__submit {
-    border-color: #088de6;
-    background-color: #088de6;
-    color: white;
-}
-
-.todoForm__submit:hover {
-    border-color: #088de6;
-    background-color: #088de6;
-    color: white;
 }
 </style>
