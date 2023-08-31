@@ -87,7 +87,6 @@ export default {
                 desc: "",
             };
             this.$emit("cancel", null);
-            console.log(this.todo);
         },
         onSubmit() {
             this.todo.id = Date.now();

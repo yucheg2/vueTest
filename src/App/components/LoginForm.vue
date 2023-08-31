@@ -52,7 +52,6 @@ export default {
     watch: {
         error(newValue) {
             if (newValue !== "") {
-                console.log(newValue);
                 switch (newValue) {
                     case "auth/invalid-email":
                         this.message = "email введене не коректно";
@@ -88,14 +87,12 @@ export default {
         register() {
             signInWithEmailAndPassword(getAuth(), this.email, this.password)
                 .then((data) => {
-                    console.log(data);
                     const { uid } = data.user;
                     localStorageService.setUserId(uid);
                     this.router.push("/");
                 })
                 .catch((error) => {
                     this.error = error.code;
-                    console.log(error.code);
                 });
         },
         toggleShowPassWord() {

@@ -51,7 +51,6 @@ export default {
     watch: {
         error(newValue) {
             if (newValue !== "") {
-                console.log(newValue);
                 switch (newValue) {
                     case "auth/invalid-email":
                         this.message = "email введене не коректно";

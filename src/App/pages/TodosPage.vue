@@ -114,7 +114,6 @@ export default {
                 this.todos = todosInLS;
             } catch (error) {
                 alert("Ошибка");
-                console.log(error);
             } finally {
                 this.todosLoading = false;
             }
