@@ -1,19 +1,16 @@
-# firstvue
+Чтобы скачать репозиторий вы можете:
 
-## Project setup
-```
-npm install
-```
+-   воспользоваться командой "git clone https://github.com/yucheg2/vueTest.git";
+-   или скачать zip файл во вкладке "code" на странице репозитория;
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Далее вам будет необходимо скачать все зависимости:
 
-### Compiles and minifies for production
-```
-npm run build
-```
+-   используйте в терминале команду "npm i", находясь в директории проекта
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Теперь вы можете запустить проект на локальном сервере:
+
+-   используйте команду "npm run serve"
+
+Откройте в браузере окно с проектом по ссылке
+
+-   http://localhost:8080/
