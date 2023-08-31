@@ -46,6 +46,7 @@ export default {
             router: useRouter(),
             error: "",
             message: "",
+            showPassword: false,
         };
     },
     watch: {
