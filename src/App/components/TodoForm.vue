@@ -1,12 +1,30 @@
 <template>
     <form class="todoForm" @submit.prevent>
-        <h3>Создать задачу</h3>
+        <h3 v-if="editablde.id">Изменить задачу</h3>
+        <h3 v-else>Создать задачу</h3>
+        <label for="title"> Заголовок</label>
         <input
+            id="title"
             v-model="todo.title"
             type="text"
-            v-bind:class="'todoForm__input'"
+            class="todoForm__input"
             placeholder="Введите заголовок задачи"
         />
+        <label for="date"> Дата выполнения задачи</label>
+        <input
+            type="date"
+            class="todoForm__input"
+            v-model="todo.expiers.date"
+            id="date"
+        />
+        <label for="time"> Время выполнения задачи</label>
+        <input
+            id="time"
+            v-model="todo.expiers.time"
+            class="todoForm__input"
+            type="time"
+        />
+        <label for="title"> Описание </label>
         <textarea
             v-model="todo.desc"
             class="todoForm__textarea"
@@ -20,6 +38,15 @@
                 >Отменить</my-button
             >
             <my-button
+                v-if="editablde.id"
+                class="todoForm__edit"
+                :disabled="todo.title === ''"
+                type="submit"
+                @click="onEdit"
+                >Изменить</my-button
+            >
+            <my-button
+                v-else
                 class="todoForm__submit"
                 :disabled="todo.title === ''"
                 type="submit"
@@ -31,12 +58,25 @@
 </template>
 
 <script>
+import { format } from "date-fns";
 export default {
+    props: {
+        editablde: {
+            type: Object,
+            default: {},
+        },
+    },
     data() {
         return {
             todo: {
-                title: "",
-                desc: "",
+                title: this.editablde.title || "",
+                desc: this.editablde.desc || "",
+                expiers: this.editablde.expiers
+                    ? { ...this.editablde.expiers }
+                    : {
+                          date: "",
+                          time: "",
+                      },
             },
         };
     },
@@ -47,12 +87,28 @@ export default {
                 desc: "",
             };
             this.$emit("cancel", null);
+            console.log(this.todo);
         },
         onSubmit() {
             this.todo.id = Date.now();
             this.todo.completed = false;
+            this.todo.createdAt = Date.now();
+            if (this.todo.expiers.time && !this.todo.expiers.date) {
+                this.todo.expiers.date = format(Date.now(), "yyyy-MM-dd");
+            }
 
             this.$emit("create", this.todo);
+            this.todo = {
+                title: "",
+                desc: "",
+            };
+        },
+        onEdit() {
+            if (this.todo.expiers.time && !this.todo.expiers.date) {
+                this.todo.expiers.date = format(Date.now(), "yyyy-MM-dd");
+            }
+
+            this.$emit("edit", { ...this.editablde, ...this.todo });
             this.todo = {
                 title: "",
                 desc: "",
@@ -67,6 +123,10 @@ export default {
     text-align: center;
     display: flex;
     flex-direction: column;
+}
+
+label {
+    text-align: left;
 }
 
 .todoForm h3 {

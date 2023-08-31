@@ -11,17 +11,18 @@
             />
         </div>
         <div class="todosList__items">
-            <draggable v-model="array" tag="div" item-key="id">
+            <draggable @end="sortTodo" v-model="array" tag="div" item-key="id">
                 <template #item="{ element: todo }">
                     <todo-item
                         class="sortable"
                         :id="todo.id"
                         :todo="todo"
+                        @onEdit="$emit('edit', todo)"
                         @onDelete="$emit('remove', todo)"
+                        @onCheck="$emit('check', todo)"
                     />
                 </template>
             </draggable>
-            <!-- сохранять изменения после перетаскивания -->
         </div>
     </div>
     <h2 v-show="todos.length === 0" style="color: darkgrey; text-align: center">
@@ -30,6 +31,7 @@
 </template>
 
 <script>
+import localStorageService from "../service/localstorage.service";
 import TodoItem from "./TodoItem";
 import draggable from "vuedraggable";
 export default {
@@ -45,15 +47,17 @@ export default {
     data() {
         return {
             serchedText: "",
-            array: this.todos,
+            array: [...this.todos],
+            oldIndex: "",
+            newIndex: "",
         };
     },
     watch: {
         todos(newValue) {
-            console.log(newValue);
             this.array = newValue.filter((t) =>
                 t.title.includes(this.serchedText)
             );
+            localStorageService.setTodos(newValue);
         },
     },
     methods: {
@@ -61,6 +65,9 @@ export default {
             this.array = this.todos.filter((t) =>
                 t.title.includes(this.serchedText)
             );
+        },
+        sortTodo() {
+            this.$emit("onDrag", [...this.array]);
         },
     },
 };
