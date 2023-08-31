@@ -38,6 +38,7 @@
         <div class="todo__content">
             <h4>{{ todo.title }}</h4>
             <input
+                class="todo__checkbox"
                 type="checkbox"
                 v-model="todo.completed"
                 v-bind:id="todo.id"
@@ -88,6 +89,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.todo__checkbox {
+    transform: scale(200%);
+}
 .todo {
     overflow: hidden;
     background-color: white;
